@@ -1,0 +1,13 @@
+name: sharacter
+path: ""
+allowActions: true
+
+allowedActions: []
+disabledActions: []
+disabledFields: []
+
+fields:
+  - name: name
+    type: inputText
+    createEditStrategy:
+      fieldType: inputText

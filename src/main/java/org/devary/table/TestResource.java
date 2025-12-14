@@ -2,12 +2,15 @@ package org.devary.table;
 
 import io.smallrye.mutiny.Uni;
 import jakarta.annotation.Resource;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import org.devary.table.utils.ContextLoader;
 
+import java.io.InputStream;
 import java.util.Set;
 
 @Path("/")
@@ -15,33 +18,13 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class TestResource {
 
+    @Inject
+    ContextLoader loader;
+
     @GET
-    @Path("/anime")
+    @Path("/sharacter")
     public Uni<TableContext> test() {
-        return Uni.createFrom().item(TableContext.builder()
-                .disabledActions(Set.of())
-                .allowedActions(Set.of())
-                .allowActions(true)
-                .disabledFields(Set.of())
-                .path("")
-                .name("animes")
-                .fields(Set.of(Field
-                        .builder()
-                        .name("name")
-                        .type("inputText")
-                        .createEditStrategy(CreateEditStrategy
-                                .builder()
-                                .fieldType("inputText")
-                                .build())
-                        .build(), Field
-                        .builder()
-                        .name("description")
-                        .type("textEditor")
-                        .createEditStrategy(CreateEditStrategy
-                                .builder()
-                                .fieldType("textEditor")
-                                .build())
-                        .build())
-                ).build());
+        InputStream input = getClass().getResourceAsStream("sharacter.txt");
+        return Uni.createFrom().item(this.loader.load(input));
     }
 }
